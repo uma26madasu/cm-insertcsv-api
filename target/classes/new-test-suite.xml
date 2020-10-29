@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="new-test-suite.xml" />
+	<munit:test
+		name="new-test-suite-cm-insertcsv-api-mainTest-500-UNKNOWN"
+		doc:id="b1c3dccb-4308-445f-9875-e0b71d9d131e" description="Test"
+		expectedErrorType="APIKIT:ANY">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="33c939f5-1734-4403-b04f-0f42cb12065c"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-insertcsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="#['APIKIT:ANY']" />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[500]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-insertcsv-api-main"
+				doc:id="3d2e38c8-08d3-4153-97f5-092f59f471ba"
+				name="cm-insertcsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="cafa59cf-3f1b-48fb-a052-28cd46c0fdc5"
+				actual="#[vars.httpStatus]" expected="#[500]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="new-test-suite-cm-insertcsv-api-mainTest-404-NOT_FOUND"
+		doc:id="c533542f-6e2c-4fb8-adf7-fa601cd1db19" description="Test"
+		expectedErrorType="APIKIT:NOT_FOUND">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="512327d9-bee0-46de-be79-3402713d9c2c"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-insertcsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId='#["APIKIT:NOT_FOUND"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[404]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-insertcsv-api-main"
+				doc:id="ec03cddf-4380-49a4-8471-b765188c5561"
+				name="cm-insertcsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="2a5bd296-44e7-4450-92cc-b0ae0b1ac3e0"
+				actual="#[vars.httpStatus]" expected="#[404]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="new-test-suite-cm-insertcsv-api-mainTest-405-METHOD_NOT_ALLOWED"
+		doc:id="7fee6658-7757-40d7-821f-c9249676002a" description="Test"
+		expectedErrorType="APIKIT:METHOD_NOT_ALLOWED">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="b66b83a6-9511-405c-a871-1e097eebb3fb"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-insertcsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:METHOD_NOT_ALLOWED"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[405]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-insertcsv-api-main"
+				doc:id="0a216ced-2ec9-427f-a7be-5622042162b7"
+				name="cm-insertcsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="42f89b22-c6ac-4c35-9df6-387d8a59ef49"
+				actual="#[vars.httpStatus]" expected="#[405]" />
+		</munit:validation>
+	</munit:test>
+
+	<munit:test
+		name="new-test-suite-cm-insertcsv-api-mainTest-501-NOT_IMPLEMENTED"
+		doc:id="d3f7fc0f-67a8-46e0-8946-584bef55307b" description="Test"
+		expectedErrorType="APIKIT:NOT_IMPLEMENTED">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="9357b8af-4a6f-407a-96b8-cef7039d1d8f"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-insertcsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:NOT_IMPLEMENTED"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[401]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-insertcsv-api-main"
+				doc:id="24fafda6-12d7-44a8-a8a5-d3ac90077d47"
+				name="cm-insertcsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="c9d8b00a-66e9-4936-b612-35a980b9361a"
+				actual="#[vars.httpStatus]" expected="#[501]" />
+		</munit:validation>
+	</munit:test>
+
+	<munit:test
+		name="new-test-suite-cm-insertcsv-api-mainTest-400-BAD_REQUEST"
+		doc:id="7c95dfbe-6246-4b95-80ff-5b8754555414" description="Test"
+		expectedErrorType="APIKIT:BAD_REQUEST">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="af4ed936-01db-4ec3-83ae-a88c37b9542b"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-insertcsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:BAD_REQUEST"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[400]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-insertcsv-api-main"
+				doc:id="270451f0-66a0-4dcf-bc7a-d417cc910b89"
+				name="cm-insertcsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="0d8262a1-9c23-4275-ba0c-8c5e53ec9545"
+				actual="#[vars.httpStatus]" expected="#[400]" />
+		</munit:validation>
+	</munit:test>
+
+	<munit:test
+		name="new-test-suite-cm-insertcsv-api-mainTest-415-UNSUPPORTED_MEDIA_TYPE"
+		doc:id="d55a96c5-b26e-4407-89a5-1f0b0dbe809b" description="Test"
+		expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="31aa1a19-7098-4263-9bf0-249969d02e2e"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-insertcsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:UNSUPPORTED_MEDIA_TYPE"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[415]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-insertcsv-api-main"
+				doc:id="d8f3450d-893b-4566-9c70-9faae8518401"
+				name="cm-insertcsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="5886b377-2ec9-4639-95c8-2bc66d0efbfc"
+				actual="#[vars.httpStatus]" expected="#[415]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="new-test-suite-cm-insertcsv-api-mainTest-406-NOT_ACCEPTABLE"
+		doc:id="395d5b05-afe6-478b-84d8-0adcd129f8c4" description="Test"
+		expectedErrorType="APIKIT:NOT_ACCEPTABLE">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when APIKIT"
+				doc:id="714ca9ba-baff-4e43-9a9b-d1270d57c82e"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="cm-insertcsv-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["APIKIT:NOT_ACCEPTABLE"]' />
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[406]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to cm-insertcsv-api-main"
+				doc:id="5af5d98b-95de-4507-8787-ef612b472824"
+				name="cm-insertcsv-api-main" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="6b94f6ab-21c7-4692-a74c-9ecc14d50006"
+				actual="#[vars.httpStatus]" expected="#[406]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="new-test-suite-post:\insert:application\json:cm-insertcsv-api-configTest"
+		doc:id="41c2313f-8be9-402a-9173-f590e804ecf3" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock Flow Reference"
+				doc:id="9c080b58-ccb9-4909-9d90-1c0f0fb52c8c" processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="Refer to fileCheckFlow" attributeName="doc:name" />
+					<munit-tools:with-attribute
+						whereValue="162be3fe-5623-4f79-8126-aa7e3908f89b"
+						attributeName="doc:id" />
+					<munit-tools:with-attribute
+						whereValue="fileCheckFlow" attributeName="name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when
+				doc:name="Mock when Creating a file"
+				doc:id="b192ca13-9669-4465-91c5-fcc0002dc8ed" processor="file:write">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="29dc7418-c8fe-455e-b37d-ff683f9602bd"
+						attributeName="doc:id" />
+					<munit-tools:with-attribute
+						whereValue="Write" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[200]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Event"
+				doc:id="0583e077-9db0-4578-a416-72d7b0794d23">
+				<munit:attributes
+					value='#[{headers: {"clientKey" : "17944757-3e3f-4ee4-8929-5d470c80d670",
+"firstName" : "Uma",
+"middleName" : "Rao",
+"lastName" : "Madasu",
+"birthDate" : "1992-12-24",
+"Height" : "10.5",
+"Weight" : "160lbs",
+"billingStreet" : "2337",
+"billingCity" : "promenade blvd",
+"billingState" : "Montgomery",
+"billingPostalCode" : "36106",
+"billingCountry" : "USA",
+"createdDate" : "2020-10-18"}}]' />
+			</munit:set-event>
+			<flow-ref
+				doc:name="Flow-ref to post:\insert:application\json:cm-insertcsv-api-config"
+				doc:id="4f876632-3b48-4109-813f-fc64aa42abf5"
+				name="post:\insert:application\json:cm-insertcsv-api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="70597731-74d5-42d5-a081-349ab7fb0274"
+				actual="#[vars.httpStatus]" expected="#[200]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="cm-insertcsv-api-impl-test-suite-fileCheckFlowTest"
+		doc:id="eea3b007-01a9-43e4-907d-1d5c2430c681" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when file Read"
+				doc:id="30f73fe3-2228-4df9-bd58-000d3f6d9a0e" processor="file:read">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="15dd3939-1d02-46af-a69e-186c7acc68c6"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId='#["FILE:ILLEGAL_PATH"]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Event"
+				doc:id="d6ccd879-27d3-4352-b8f2-b4001f5b40d8">
+				<munit:payload
+					value='#[output application/csv
+---
+{"clientKey" : "17944757-3e3f-4ee4-8929-5d470c80d670",
+"firstName" : "Uma",
+"middleName" : "Rao",
+"lastName" : "Madasu",
+"birthDate" : "1992-12-24",
+"Height" : "10.5",
+"Weight" : "160lbs",
+"billingStreet" : "2337",
+"billingCity" : "promenade blvd",
+"billingState" : "Montgomery",
+"billingPostalCode" : "36106",
+"billingCountry" : "USA",
+"createdDate" : "2020-10-18"}]'
+					mediaType="application/csv" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to fileCheckFlow"
+				doc:id="f1b4387f-ce0a-45de-aa4c-db3ad3eff182" name="fileCheckFlow" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:verify-call
+				doc:name="Verify call" doc:id="fda2c0ac-1304-4ea3-8e82-0e4fe3ae6afe"
+				processor="set-payload">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="e9f32c82-37d6-4536-8a7b-459b2dd0bccb"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="cm-insertcsv-api-impl-test-suite-fileCheckFlowTest_emptyFile"
+		doc:id="3f83d0aa-d100-4972-a690-7f78a32ce29b" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when read file"
+				doc:id="35a18189-67a5-4a9a-9cdd-774aaedcfb2f" processor="file:read">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="Checking for the fields" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value="#[output application/csv
+---
+{}
+]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when
+				doc:name="Mock when delete file"
+				doc:id="61e6bcc0-c163-438c-ad22-291cb54b0f0b"
+				processor="file:delete">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="d1a2f0a9-9464-46ae-be35-5dbd5e454354"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:variables>
+						<munit-tools:variable key="httpStatus"
+							value="#[200]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Event"
+				doc:id="6a4ccae2-aedf-4b34-a4d9-065281b3f257">
+				<munit:payload
+					value='#[output application/csv 
+---
+{"clientKey" : "17944757-3e3f-4ee4-8929-5d470c80d670",
+"firstName" : "Uma",
+"middleName" : "Rao",
+"lastName" : "Madasu",
+"birthDate" : "1992-12-24",
+"Height" : "10.5",
+"Weight" : "160lbs",
+"billingStreet" : "2337",
+"billingCity" : "promenade blvd",
+"billingState" : "Montgomery",
+"billingPostalCode" : "36106",
+"billingCountry" : "USA",
+"createdDate" : "2020-10-18"}]'
+					mediaType="application/csv" />
+
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to fileCheckFlow"
+				doc:id="411ce760-35b4-447c-a746-3c88c12831e6" name="fileCheckFlow" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:verify-call
+				doc:name="Verify call" doc:id="3aa4964c-9e47-4296-a82f-f9f520605459"
+				processor="set-payload">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="204f55e7-1852-4f39-be7d-a492eef6bad7"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="cm-insertcsv-api-impl-test-suite-fileCheckFlowTest_Success"
+		doc:id="edaab67a-4bba-4c8f-8b51-a97b721a6d49" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when read file"
+				doc:id="9bb02c08-6755-46f5-89b0-4e2f553cfbe1" processor="file:read">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="Checking for the fields" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value='#[output application/csv 
+---
+{"clientKey" : "17944757-3e3f-4ee4-8929-5d470c80d670",
+"firstName" : "Uma",
+"middleName" : "Rao",
+"lastName" : "Madasu",
+"birthDate" : "1992-12-24",
+"Height" : "10.5",
+"Weight" : "160lbs",
+"billingStreet" : "2337",
+"billingCity" : "promenade blvd",
+"billingState" : "Montgomery",
+"billingPostalCode" : "36106",
+"billingCountry" : "USA",
+"createdDate" : "2020-10-18"}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Event"
+				doc:id="37b66207-583c-4b4c-9dcc-31a3262073e8">
+				<munit:payload
+					value='#[output application/csv 
+---
+{"clientKey" : "17944757-3e3f-4ee4-8929-5d470c80d670",
+"firstName" : "Uma",
+"middleName" : "Rao",
+"lastName" : "Madasu",
+"birthDate" : "1992-12-24",
+"Height" : "10.5",
+"Weight" : "160lbs",
+"billingStreet" : "2337",
+"billingCity" : "promenade blvd",
+"billingState" : "Montgomery",
+"billingPostalCode" : "36106",
+"billingCountry" : "USA",
+"createdDate" : "2020-10-18"}]'
+					mediaType="application/csv" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to fileCheckFlow"
+				doc:id="0e5cf388-91f0-4610-80e3-5a76760185c1" name="fileCheckFlow" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:verify-call
+				doc:name="Verify call" doc:id="9cdbbd04-5012-40e5-a023-2a273ea149ce"
+				processor="set-payload">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="1108e633-0890-44f3-b5e8-07c9c3801bdb"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+</mule>

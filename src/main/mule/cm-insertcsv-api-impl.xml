@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="cm-insertcsvFlow" doc:id="a58af664-b275-4c3b-af5b-d3183e14483e" >
+		<ee:transform doc:name="Request Transformation" doc:id="423bb274-fab4-4025-a95a-43da31b1c495" >
+			<ee:message >
+				<ee:set-payload resource="dataweaves/request_transformation.dwl" />
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dataweaves/path_var.dwl" variableName="path" />
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Refer to fileCheckFlow" doc:id="162be3fe-5623-4f79-8126-aa7e3908f89b" name="fileCheckFlow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a133e24f-ab73-4660-8ac0-088b75d88026" message="#[vars.path]"/>
+		<file:write doc:id="29dc7418-c8fe-455e-b37d-ff683f9602bd" path="#[vars.path]" mode="APPEND" doc:name="Write" />
+		<logger level="INFO" doc:name="Logger" doc:id="cd20e16d-4478-4173-8d9b-72b6aa7b1814" message='#["Records inserted to the file" : vars.path]' />
+	</flow>
+	<flow name="fileCheckFlow" doc:id="e5e95ef2-bacc-4ffc-83d1-191d2e8d7a69" >
+		<set-variable value="#[payload]" doc:name="Var request" doc:id="ee944e50-48f6-4371-b84c-6e324ce0c302" variableName="request"/>
+		<file:read doc:name="Checking for the fields" doc:id="15dd3939-1d02-46af-a69e-186c7acc68c6" path="#[vars.path]"/>
+		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="e0008157-e461-4e8d-ab3c-50d5520a5eee" message='#["file is empty. So, adding headers."]'/>
+		<set-payload value="#[output application/csv header=false --- vars.request]" doc:name="Set Payload" doc:id="1108e633-0890-44f3-b5e8-07c9c3801bdb" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f1bc43d4-b008-466a-8487-1f62a43334b1" type="VALIDATION:EMPTY_COLLECTION">
+				<file:delete doc:name="Delete" doc:id="d1a2f0a9-9464-46ae-be35-5dbd5e454354" path="#[vars.path]"/>
+				<set-payload value="#[output application/csv header=true
+---
+vars.request]" doc:name="Set Payload" doc:id="204f55e7-1852-4f39-be7d-a492eef6bad7" />
+			</on-error-continue>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0e5a2a32-ec5e-46bb-b68c-a59b0dce35de" type="FILE:ILLEGAL_PATH">
+				<set-payload value="#[output application/csv header=true
+---
+vars.request]" doc:name="Set Payload" doc:id="e9f32c82-37d6-4536-8a7b-459b2dd0bccb" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

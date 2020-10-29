@@ -1,0 +1,32 @@
+#%RAML 1.0
+title: CM-InsertCSV-API
+baseUri: http://localhost:8081/api
+version: V1
+traits: 
+  headers : !include headers_trait.raml
+  errors: !include Errors_trait.raml
+
+  
+        
+/insert:
+  post:
+    description: This method will insert the data in to CSV File
+    displayName: Insert Records
+    is:
+      - headers:
+      - errors:
+          
+    body:
+      application/json:
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                "Status" : "Success",
+                "Message" : " Record Inserted Successfully"
+              }
+
+    
+        
